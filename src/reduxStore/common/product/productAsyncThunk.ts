@@ -20,11 +20,3 @@ export const thunkFetchProductType = createAsyncThunk(
         return res.data
     }
 )
-
-export const thunkFetchDetailProduct = createAsyncThunk(
-    'product/fetchDetail',
-    async (id: string, thunkApi) => {
-        const res = await ProductService.getDetailProduct(id);
-        return res.data
-    }
-)

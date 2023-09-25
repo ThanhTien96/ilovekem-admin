@@ -30,6 +30,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
   onFinish,
   defaultVal,
 }) => {
+
   const formik = useFormik({
     initialValues: {
       productName: defaultVal?.productName ?? "",

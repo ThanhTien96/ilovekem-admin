@@ -1,17 +1,17 @@
 import { ProductForm, WrapperLayout } from "components/shared";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "reduxStore";
 import {
-  thunkFetchDetailProduct,
   thunkFetchProductType,
   thunkGetAllProduct,
 } from "reduxStore/common/product/productAsyncThunk";
-import { Spin, message } from "antd";
+import { Spin, message, Empty } from "antd";
 import { ProductFromValueType } from "components/shared/ProductForm/ProductForm";
 import { ProductService } from "services/prouductService";
 import { setproductLoading } from "reduxStore/common/product/productSlice";
 import pagePaths from "constants/pagePath";
+import { ProductType } from "@type/product";
 type UPdateProductPageProps = {};
 
 const UPdateProductPage: React.FC<UPdateProductPageProps> = (props) => {
@@ -19,7 +19,8 @@ const UPdateProductPage: React.FC<UPdateProductPageProps> = (props) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const productId = searchParams.get("productId");
-  const { productDetail, productType, pageLoading } = useAppSelector(
+  const [productDetail, setProductDetail] = useState<ProductType>();
+  const { productType, pageLoading } = useAppSelector(
     (state) => state.product.productSlice
   );
 
@@ -29,13 +30,22 @@ const UPdateProductPage: React.FC<UPdateProductPageProps> = (props) => {
   /** handle fetch detail Product */
   useEffect(() => {
     if (productId) {
-      dispatch(thunkFetchDetailProduct(productId));
+      (async () => {
+        try {
+          const res = await ProductService.getDetailProduct(productId);
+          if (res.status === 200) {
+            setProductDetail(res.data);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      })();
     }
   }, [productId]);
 
   /** handle finish input */
   const handleFinishInput = async (value: ProductFromValueType) => {
-    dispatch(setproductLoading(true))
+    dispatch(setproductLoading(true));
     const formData = new FormData();
     // Thêm các trường dữ liệu vào FormData
     formData.append("productName", value.productName);
@@ -58,24 +68,26 @@ const UPdateProductPage: React.FC<UPdateProductPageProps> = (props) => {
           formData
         );
         message.success(res.data.message);
-        dispatch(thunkGetAllProduct({page: 1}));
-        navigate(`/${pagePaths.product}`)
+        dispatch(thunkGetAllProduct({ page: 1 }));
+        navigate(`/${pagePaths.product}`);
       }
     } catch (err) {
       message.error("update product faild");
     } finally {
-        dispatch(setproductLoading(false));
+      dispatch(setproductLoading(false));
     }
   };
 
   return (
     <WrapperLayout>
-      <Spin spinning={pageLoading}>
-        <ProductForm
-          onFinish={handleFinishInput}
-          defaultVal={productDetail}
-          productTypeData={productType}
-        />
+      <Spin spinning={pageLoading || !productDetail}>
+        {productDetail ? (
+          <ProductForm
+            onFinish={handleFinishInput}
+            defaultVal={productDetail}
+            productTypeData={productType}
+          />
+        ) : <Empty />}
       </Spin>
     </WrapperLayout>
   );
