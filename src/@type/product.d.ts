@@ -13,6 +13,7 @@ export interface ProductType {
     originalPrice: number;
     overwritePrice: number;
     sortDescription: string;
+    isPublic: boolean;
     rate: number;
     productType: {
       _id: string;

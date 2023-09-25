@@ -4,11 +4,12 @@ import React from "react";
 import pagePaths from "constants/pagePath";
 import { AppLayout } from "components/Layout";
 
+
 const Home = React.lazy(() => import('pages/HomePage'))
 const LoginPage = React.lazy(() => import('pages/LoginPage'));
 const ProductPage = React.lazy(() => import('pages/ProductsPage'));
 const AddProduct = React.lazy(() => import('pages/AddProductPage'));
-
+const UpdateProductPage = React.lazy(() => import('pages/UpdateProductPage'))
 const extendedRoutes: RouteObject[] = [
   {
     index: true,
@@ -22,6 +23,10 @@ const extendedRoutes: RouteObject[] = [
   {
     path: pagePaths.addProduct,
     element: <AddProduct />
+  },
+  {
+    path: pagePaths.updateProduct,
+    element: <UpdateProductPage />
   }
 ];
 

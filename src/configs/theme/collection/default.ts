@@ -10,6 +10,9 @@ const instance: ThemeConfig = {
       headerBg: "#ffffff",
       triggerBg: "#cdcdcd",
     },
+    Button: {
+      colorPrimaryText: "#000000"
+    }
   },
 };
 

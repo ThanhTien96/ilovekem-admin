@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { ProductCart } from "./partials";
 import { useAppDispatch, useAppSelector } from "reduxStore";
 import { ProductType } from "@type/product";
-import { Pagination, Spin } from "antd";
+import { Pagination, Spin, Empty } from "antd";
 import { thunkGetAllProduct } from "reduxStore/common/product/productAsyncThunk";
 import { ButtonApp, WrapperLayout } from "components/shared";
 import { AppstoreAddOutlined } from "@ant-design/icons";
@@ -12,7 +12,7 @@ const ProductPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(thunkGetAllProduct({page: 1}));
+    dispatch(thunkGetAllProduct({ page: 1 }));
   }, []);
 
   const { productList, pageLoading } = useAppSelector(
@@ -37,30 +37,38 @@ const ProductPage: React.FC = () => {
         </div>
       </div>
       <Spin spinning={pageLoading}>
-        <div className="h-full">
-          <div className="grid grid-cols-12">
-            {productList?.data?.map((ele: ProductType, index: React.Key) => {
-              return (
-                <ProductCart
-                  key={index}
-                  data={ele}
-                  className="col-span-6 py-4 px-4"
-                />
-              );
-            })}
-          </div>
-          {productList && (
-            <div className=" flex justify-center items-center mt-8 mb-14">
-              <Pagination
-                onChange={(e) => {
-                  dispatch(thunkGetAllProduct({page: e}));
-                }}
-                defaultCurrent={1}
-                total={productList?.total}
-              />
+        <React.Suspense fallback={<Empty />}>
+          {productList && productList.data.length > 0 ? (
+            <div className="h-full">
+              <div className="grid grid-cols-12">
+                {productList?.data?.map(
+                  (ele: ProductType, index: React.Key) => {
+                    return (
+                      <ProductCart
+                        key={index}
+                        data={ele}
+                        className="col-span-6 py-4 px-4"
+                      />
+                    );
+                  }
+                )}
+              </div>
+              {productList && (
+                <div className=" flex justify-center items-center mt-8 mb-14">
+                  <Pagination
+                    onChange={(e) => {
+                      dispatch(thunkGetAllProduct({ page: e }));
+                    }}
+                    defaultCurrent={1}
+                    total={productList?.total}
+                  />
+                </div>
+              )}
             </div>
+          ) : (
+            <Empty />
           )}
-        </div>
+        </React.Suspense>
       </Spin>
     </WrapperLayout>
   );

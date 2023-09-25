@@ -9,3 +9,4 @@ export {default as LoginPage} from './LoginPage'
 export {default as LoadingPage} from './LoadingPage';
 export {default as ProductPage} from './ProductsPage';
 export {default as AddProductPage} from './AddProductPage';
+export {default as UpdateProductPage} from './UpdateProductPage'

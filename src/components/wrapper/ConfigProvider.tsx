@@ -30,6 +30,9 @@ const XConfigProvider = (props: XConfigProviderProps) => {
             backgroundColor:
             selectedTheme && selectedTheme.components?.Layout?.colorBgTrigger,
           },
+          ".ant-btn-primary": {
+            background: colorPrimary
+        }
         }}
       />
       <ConfigProvider {...restConfigProps} theme={selectedTheme}>

@@ -59,7 +59,7 @@ const XLayout: React.FC<AppLayoutProps> = (props) => {
             <UserButton />
           </div>
         </Header>
-        <Content className='flex flex-col h-[100vh] overflow-y-scroll' style={{ margin: "0 16px" }}>
+        <Content className='flex flex-col h-[100vh] overflow-y-scroll relative' style={{ margin: "0 16px" }}>
           {children}
         </Content>
       </Layout>

@@ -7,7 +7,7 @@ import { ProductService, ProductTypeService } from "services/prouductService";
 
 export const thunkGetAllProduct = createAsyncThunk(
     'product/getAllProduct',
-    async ({page=1, keyWord =''}: {page: number, keyWord?: string}, thunkApi) => {
+    async ({page, keyWord =''}: {page?: number, keyWord?: string}, thunkApi) => {
         const res: AxiosResponse<ProductTypeFromBE> = await ProductService.getAllProduct(page,'', 10, thunkApi.signal);
         return res.data
     }
@@ -17,6 +17,14 @@ export const thunkFetchProductType = createAsyncThunk(
     'product/fetchProductType',
     async (_, {signal}) => {
         const res: AxiosResponse<TypeOfProductType[]> = await ProductTypeService.getAllProductType(signal);
+        return res.data
+    }
+)
+
+export const thunkFetchDetailProduct = createAsyncThunk(
+    'product/fetchDetail',
+    async (id: string, thunkApi) => {
+        const res = await ProductService.getDetailProduct(id);
         return res.data
     }
 )

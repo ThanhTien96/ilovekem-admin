@@ -1,22 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ProductForm, WrapperLayout } from "components/shared";
 import { useAppDispatch, useAppSelector } from "reduxStore";
-import { thunkFetchProductType } from "reduxStore/common/product/productAsyncThunk";
+import { thunkFetchProductType, thunkGetAllProduct } from "reduxStore/common/product/productAsyncThunk";
 import { ProductFromValueType } from "components/shared/ProductForm/ProductForm";
 import { ProductService } from "services/prouductService";
+import { Spin, message } from "antd";
+import { useNavigate } from "react-router-dom";
+import pagePaths from "constants/pagePath";
 
 type AddProductProps = {};
 
 const AddProduct: React.FC<AddProductProps> = (props) => {
   const { productType } = useAppSelector((state) => state.product.productSlice);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
+  const [pageLoading, setPageLoading] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(thunkFetchProductType());
   }, [dispatch]);
 
   const handleFinish = async (value: ProductFromValueType) => {
-
+    setPageLoading(true)
     const formData = new FormData();
     // Thêm các trường dữ liệu vào FormData
     formData.append("productName", value.productName);
@@ -29,24 +34,32 @@ const AddProduct: React.FC<AddProductProps> = (props) => {
 
     if (value.media) {
       value.media.forEach((image, index) => {
-        formData.append(`media`, image.originFileObj
-        );
+        formData.append(`media`, image.originFileObj);
       });
     }
     try {
       const res = await ProductService.createProduct(formData);
+      if(res.status === 200) {
+        message.success(res.data.message);
+        await dispatch(thunkGetAllProduct({page:1}));
+        navigate(`/${pagePaths.product}`)
+      }
     } catch (err) {
-      console.log(err);
+      message.error("add product faild")
+    } finally {
+      setPageLoading(false)
     }
   };
 
   return (
     <WrapperLayout>
-      <div>
-        <h1>Add Product</h1>
-      </div>
+      <Spin spinning={pageLoading}>
+        <div>
+          <h1>Add Product</h1>
+        </div>
 
-      <ProductForm onFinish={handleFinish} productTypeData={productType} />
+        <ProductForm onFinish={handleFinish} productTypeData={productType} />
+      </Spin>
     </WrapperLayout>
   );
 };

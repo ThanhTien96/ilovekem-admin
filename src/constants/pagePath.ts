@@ -4,7 +4,8 @@ const pagePaths = {
     home: 'home',
     login: 'login',
     product: 'product',
-    addProduct:'addProduct'
+    addProduct:'addProduct',
+    updateProduct: 'updateProduct'
 };
 
 export default pagePaths;
