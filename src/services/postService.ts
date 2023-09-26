@@ -52,5 +52,19 @@ export class PostService {
             method: "PUT",
         })
     }
+
+    /** public post */
+    static publicPost = async(id: string, isPublic: boolean) => {
+        return await axiosClient({
+            url: postPath.PUBLIC_POST,
+            method: "POST",
+            params: {
+                id
+            },
+            data : {
+                isPublic
+            }
+        })
+    }
 }
 

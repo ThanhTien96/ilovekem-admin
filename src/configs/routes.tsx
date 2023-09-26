@@ -1,5 +1,5 @@
 import { RouteObject, Outlet } from "react-router-dom";
-import { NotFoundPage,  } from "pages";
+import {  NotFoundPage,  } from "pages";
 import React from "react";
 import pagePaths from "constants/pagePath";
 import { AppLayout } from "components/Layout";
@@ -11,6 +11,7 @@ const ProductPage = React.lazy(() => import('pages/ProductsPage'));
 const AddProduct = React.lazy(() => import('pages/AddProductPage'));
 const UpdateProductPage = React.lazy(() => import('pages/UpdateProductPage'));
 const PostPage = React.lazy(() => import('pages/PostPage'));
+const AccountPage = React.lazy(() => import('pages/AccountPage'));
 
 const extendedRoutes: RouteObject[] = [
   {
@@ -33,6 +34,10 @@ const extendedRoutes: RouteObject[] = [
   {
     path: pagePaths.post,
     element: <PostPage />
+  }, 
+  {
+    path: pagePaths.account,
+    element: <AccountPage />
   }
 ];
 

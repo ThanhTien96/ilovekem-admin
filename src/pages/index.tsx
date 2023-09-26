@@ -11,3 +11,4 @@ export {default as ProductPage} from './ProductsPage';
 export {default as AddProductPage} from './AddProductPage';
 export {default as UpdateProductPage} from './UpdateProductPage';
 export {default as PostPage} from './PostPage';
+export {default as AccountPage} from './AccountPage';

@@ -6,6 +6,7 @@ import {
   ContainerFilled,
   WeiboOutlined,
   DropboxOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import  pagePaths  from "constants/pagePath";
 
@@ -35,6 +36,9 @@ const items: MenuItem[] = [
   getItem("Post",'allPost', <WeiboOutlined />, [
     getItem("Post", pagePaths.post, <DropboxOutlined />),
   ]),
+  getItem("Account", 'allAccount', <TeamOutlined />, [
+    getItem("Account", pagePaths.account, <TeamOutlined />),
+  ])
 ];
 
 export default items;

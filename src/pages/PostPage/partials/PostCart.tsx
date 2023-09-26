@@ -10,9 +10,10 @@ type PostCartProps = {
     data?: PostType;
     onDelete: (id: string) => void;
     onUpdate: (id: string) => void;
+    onPublic: (id: string, isPublic: boolean) => void;
 }
 
-const PostCart: React.FC<PostCartProps> = ({className,data, onDelete, onUpdate}) => {
+const PostCart: React.FC<PostCartProps> = ({className,data, onDelete, onUpdate, onPublic}) => {
     
   return (
     <div className={clsx(className)}>
@@ -28,7 +29,7 @@ const PostCart: React.FC<PostCartProps> = ({className,data, onDelete, onUpdate})
         />
 
         <div className="flex flex-col justify-between p-4 leading-normal">
-          <h5 className="mb-2 text-xl line-clamp-2 font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-md xl:text-lg font-bold tracking-tight text-gray-900 dark:text-white line-clamp-2">
             {data?.title}
           </h5>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-4">
@@ -44,7 +45,7 @@ const PostCart: React.FC<PostCartProps> = ({className,data, onDelete, onUpdate})
         {/* action row */}
         <PostAction onUpdate={() => data && onUpdate(data._id)} onDelete={() => data && onDelete(data?._id)} />
         {/* is public status */}
-        <PostPublic isPublic={data?.isPublic ?? false} />
+        <PostPublic unPublic={() => data && onPublic(data?._id, false)} onPublic={() => data && onPublic(data?._id, true)} isPublic={data?.isPublic ?? false} />
       </div>
     </div>
   )

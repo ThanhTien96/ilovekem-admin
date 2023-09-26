@@ -10,7 +10,6 @@ import { PostForm } from "./partials";
 import { PostFormValueType } from "./partials/PostForm";
 import { PostService } from "services/postService";
 import { setPagePostLoading } from "reduxStore/common/post/postSlice";
-import { isObject } from "formik";
 
 type PostPageProps = {};
 
@@ -65,7 +64,9 @@ const PostPage: React.FC<PostPageProps> = (props) => {
       const res = await PostService.deletePost(id);
       if (res.status === 200) {
         message.success(res.data.message);
-        dispatch(thunkGetAllPost({ page: postList?.currentPages || 1, keyWord: "" }));
+        dispatch(
+          thunkGetAllPost({ page: postList?.currentPages || 1, keyWord: "" })
+        );
       }
     } catch (err) {
       message.error("delete post faild");
@@ -109,15 +110,35 @@ const PostPage: React.FC<PostPageProps> = (props) => {
       try {
         const res = await PostService.updatePost(detailPost._id, formData);
 
-        if(res.status === 200) {
+        if (res.status === 200) {
           message.success("update post successfully");
-          dispatch(thunkGetAllPost({ page: postList?.currentPages || 1, keyWord: "" }));
+          dispatch(
+            thunkGetAllPost({ page: postList?.currentPages || 1, keyWord: "" })
+          );
         }
       } catch (err) {
         message.error("update post faild");
       } finally {
         dispatch(setPagePostLoading(false));
       }
+    }
+  };
+
+  /** handle public post */
+  const handlePublicPost = async (id: string, isPublic: boolean) => {
+    dispatch(setPagePostLoading(true));
+    try {
+      const res = await PostService.publicPost(id, isPublic);
+      if (res.status === 200) {
+        message.success(res.data.message);
+        dispatch(
+          thunkGetAllPost({ page: postList?.currentPages || 1, keyWord: "" })
+        );
+      }
+    } catch (err) {
+      message.error("public post faild");
+    } finally {
+      dispatch(setPagePostLoading(false));
     }
   };
   return (
@@ -147,7 +168,8 @@ const PostPage: React.FC<PostPageProps> = (props) => {
               postList?.data?.map((ele: PostType) => {
                 return (
                   <PostCart
-                    className="col-span-6"
+                    onPublic={handlePublicPost}
+                    className="col-span-12 xl:col-span-6"
                     onUpdate={handleInitializeUpdate}
                     onDelete={handleDeletePost}
                     key={ele._id}
@@ -156,7 +178,9 @@ const PostPage: React.FC<PostPageProps> = (props) => {
                 );
               })
             ) : (
-              <Empty />
+              <div className="col-span-12 flex items-center justify-center">
+                <Empty />
+              </div>
             )}
           </div>
           {postList && (

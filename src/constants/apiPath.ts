@@ -9,4 +9,10 @@ export const productPath = {
 export const postPath = {
     POST: 'post',
     ADMIN_POST: 'adminPost',
+    PUBLIC_POST: 'publicPost'
+}
+
+export const accountPath = {
+    ACCOUNT_TYPE: 'userType',
+    ACCOUNT: 'user'
 }
