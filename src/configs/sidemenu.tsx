@@ -4,6 +4,8 @@ import {
   ProjectOutlined,
   AppstoreAddOutlined,
   ContainerFilled,
+  WeiboOutlined,
+  DropboxOutlined,
 } from "@ant-design/icons";
 import  pagePaths  from "constants/pagePath";
 
@@ -26,9 +28,12 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem("Dashboard",pagePaths.home , <ProjectOutlined />),
-  getItem("Product",'', <PieChartOutlined />, [
+  getItem("Product",'allProduct', <PieChartOutlined />, [
     getItem("Add Product", pagePaths.addProduct, <AppstoreAddOutlined />),
     getItem("Product", pagePaths.product, <ContainerFilled />),
+  ]),
+  getItem("Post",'allPost', <WeiboOutlined />, [
+    getItem("Post", pagePaths.post, <DropboxOutlined />),
   ]),
 ];
 

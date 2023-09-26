@@ -21,7 +21,7 @@ const UPdateProductPage: React.FC<UPdateProductPageProps> = (props) => {
   const productId = searchParams.get("productId");
   const [productDetail, setProductDetail] = useState<ProductType>();
   const { productType, pageLoading } = useAppSelector(
-    (state) => state.product.productSlice
+    (state) => state.common.productSlice
   );
 
   useEffect(() => {

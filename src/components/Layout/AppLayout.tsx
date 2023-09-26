@@ -25,7 +25,7 @@ const XLayout: React.FC<AppLayoutProps> = (props) => {
   const { children } = props;
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState<boolean>(false);
-
+  
   const handleNavigate = ({ key: path }: { key: React.Key }) => {
     navigate(path as string);
   };

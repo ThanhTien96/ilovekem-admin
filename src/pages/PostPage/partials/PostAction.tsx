@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MenuOutlined, DeleteFilled, EditFilled } from "@ant-design/icons";
-type ProductActionProps = {
+type PostActionProps = {
   onDelete?: () => void;
   onUpdate?: () => void;
 };
 
-const ProductAction: React.FC<ProductActionProps> = (props) => {
+const PostAction: React.FC<PostActionProps> = (props) => {
   const [openAction, setOpenAction] = useState<boolean>(false);
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -71,4 +71,4 @@ const ProductAction: React.FC<ProductActionProps> = (props) => {
   );
 };
 
-export default ProductAction;
+export default PostAction;

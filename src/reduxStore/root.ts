@@ -1,7 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
 import app from "./app";
-import product from './common'
+import common from './common'
 
 
 type AsyncReducersProps = {
@@ -11,7 +11,7 @@ type AsyncReducersProps = {
 
 export const rootReducer = {
   app,
-  product,
+  common,
 };
 
 const createReducer = (asyncReducers?: AsyncReducersProps) => combineReducers({

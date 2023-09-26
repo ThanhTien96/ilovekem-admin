@@ -16,7 +16,7 @@ const ProductPage: React.FC = () => {
   }, []);
 
   const { productList, pageLoading } = useAppSelector(
-    (state) => state.product.productSlice
+    (state) => state.common.productSlice
   );
 
   return (
@@ -38,7 +38,7 @@ const ProductPage: React.FC = () => {
       </div>
       <Spin spinning={pageLoading}>
         <React.Suspense fallback={<Empty />}>
-          {productList && productList.data.length > 0 ? (
+          {productList && Array.isArray(productList.data) && productList.data.length > 0 ? (
             <div className="h-full">
               <div className="grid grid-cols-12">
                 {productList?.data?.map(

@@ -22,7 +22,7 @@ export default defineConfig({
   server: {
     open: true,
     host: true,
-    port: 3000,
+    port: 3030,
   },
   plugins: [
     react(),

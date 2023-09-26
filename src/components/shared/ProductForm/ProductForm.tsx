@@ -1,9 +1,8 @@
 import { Form, Input, Select, InputNumber, Upload } from "antd";
 import React from "react";
 import { ButtonApp, TextEditor, UploadMedia } from "..";
-import { PlusOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
-import { FormikFormProps, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import { TypeOfProductType } from "@type/productType";
 import { ProductType } from "@type/product";
@@ -32,6 +31,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
 }) => {
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       productName: defaultVal?.productName ?? "",
       productType: defaultVal?.productType._id ?? "",
@@ -142,7 +142,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
         >
           {Array.from({ length: 5 }, (_, index) => (
             <Select.Option key={index} value={index + 1}>
-              {index + 1} star
+              {`${index + 1} star`}
             </Select.Option>
           ))}
         </Select>

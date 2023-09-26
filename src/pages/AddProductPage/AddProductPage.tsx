@@ -11,7 +11,7 @@ import pagePaths from "constants/pagePath";
 type AddProductProps = {};
 
 const AddProduct: React.FC<AddProductProps> = (props) => {
-  const { productType } = useAppSelector((state) => state.product.productSlice);
+  const { productType } = useAppSelector((state) => state.common.productSlice);
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
   const [pageLoading, setPageLoading] = useState<boolean>(false);
