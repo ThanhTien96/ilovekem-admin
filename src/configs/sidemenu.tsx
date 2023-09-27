@@ -33,12 +33,8 @@ const items: MenuItem[] = [
     getItem("Add Product", pagePaths.addProduct, <AppstoreAddOutlined />),
     getItem("Product", pagePaths.product, <ContainerFilled />),
   ]),
-  getItem("Post",'allPost', <WeiboOutlined />, [
-    getItem("Post", pagePaths.post, <DropboxOutlined />),
-  ]),
-  getItem("Account", 'allAccount', <TeamOutlined />, [
-    getItem("Account", pagePaths.account, <TeamOutlined />),
-  ])
+  getItem("Post",pagePaths.post, <DropboxOutlined />),
+  getItem("Account", pagePaths.account, <TeamOutlined />)
 ];
 
 export default items;

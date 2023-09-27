@@ -28,6 +28,7 @@ export interface TableDataType {
     src: string;
     fileName: string;
   };
+  userName: string;
   name: string;
   userType: {
     _id: string;

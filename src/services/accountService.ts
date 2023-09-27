@@ -29,4 +29,29 @@ export class AccountService {
             data: payload,
         })
     }
+
+    /** handle delete account */
+    static deleteAccount = async (id: string) => {
+        return await axiosClient({
+            url: `${accountPath.ACCOUNT}/${id}`,
+            method: "DELETE"
+        })
+    }
+
+    /** get detail account */
+    static getDetailAccount = async (id: string) => {
+        return await axiosClient({
+            url: `${accountPath.ACCOUNT}/${id}`,
+            method: 'GET',
+        })
+    }
+
+    /** udpate account */
+    static updateAccount = async (id: string, payload: FormData) => {
+        return await axiosClient({
+            url: `${accountPath.ACCOUNT}/${id}`,
+            method: "PUT",
+            data: payload,
+        })
+    }
 }

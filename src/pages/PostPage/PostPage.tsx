@@ -51,7 +51,6 @@ const PostPage: React.FC<PostPageProps> = (props) => {
       }
     } catch (err) {
       message.error("create post faild");
-      console.log(err);
     } finally {
       dispatch(setPagePostLoading(false));
     }

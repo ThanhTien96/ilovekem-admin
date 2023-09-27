@@ -36,9 +36,7 @@ const UPdateProductPage: React.FC<UPdateProductPageProps> = (props) => {
           if (res.status === 200) {
             setProductDetail(res.data);
           }
-        } catch (err) {
-          console.log(err);
-        }
+        }catch(err) { /* empty */ }
       })();
     }
   }, [productId]);

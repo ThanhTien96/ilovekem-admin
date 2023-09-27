@@ -1,54 +1,62 @@
-import { TypeOfUserType } from "@type/accountType";
-import { Form, Input, Select } from "antd";
+import { AccountType, TypeOfUserType } from "@type/accountType";
+import { Avatar, Form, Input, Select } from "antd";
 import { ButtonApp } from "components/shared";
 import { useFormik } from "formik";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { UploadAvatar } from ".";
+import { StaticContent } from "constants/staticContent";
+import * as yup from 'yup';
+import { regexValidation } from "utils/regexValidation";
 
 type UserFormProps = {
   userType: TypeOfUserType[];
-    onFinish: (value: UserFormValueType) => void;
+  onFinish: (value: UserFormValueType) => void;
+  defaultVal?: AccountType;
 };
 
-const prefixSelector = (
-  <Form.Item name="prefix" noStyle>
-    <Select defaultActiveFirstOption style={{ width: 70 }}>
-      <Select.Option value="84">+84</Select.Option>
-      <Select.Option value="86">+86</Select.Option>
-      <Select.Option value="87">+87</Select.Option>
-    </Select>
-  </Form.Item>
-);
-
 export interface UserFormValueType {
-    userName: string;
-      password: string;
-      fullName: string;
-      email: string;
-      numberPhone: string;
-      address: string;
-      userType: string;
-      avatar: any;
+  userName: string;
+  password: string;
+  fullName: string;
+  email: string;
+  numberPhone: string;
+  address: string;
+  userType: string;
+  avatar: any;
 }
 
-const UserForm: React.FC<UserFormProps> = ({ userType, onFinish }) => {
+const UserForm: React.FC<UserFormProps> = ({
+  userType,
+  onFinish,
+  defaultVal,
+}) => {
   const [resetImage, setResetImage] = useState<boolean>(false);
-  
-    const formik = useFormik({
+
+  const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      userName: "",
+      userName: defaultVal?.userName ?? "",
       password: "",
-      fullName: "",
-      email: "",
-      numberPhone: "",
-      address: "",
-      userType: "",
+      fullName: defaultVal?.fullName ?? "",
+      email: defaultVal?.email ?? "",
+      numberPhone: defaultVal?.numberPhone ?? "",
+      address: defaultVal?.address ?? "",
+      userType: defaultVal?.userType._id ?? "",
       avatar: null,
     },
+    validationSchema: yup.object({
+      userName: yup.string().required('user name is require').trim().matches(regexValidation.userName, 'user name must be text and number no space and special characters'),
+      password: !defaultVal ?  yup.string().required("password require").matches(regexValidation.checkPassword, 'passwor must be have 1 uppercase 1 number 1 special character and as least 6 character') : yup.string(),
+      fullName: yup.string().required("full name is require"),
+      email: yup.string().email('not correct email pattent').required("email is required"),
+      numberPhone: yup.string().required("phone number is require"),
+      address: yup.string().required("address is require"),
+      userType: yup.string().required("user type is require"),
+    }),
     onSubmit: (value: UserFormValueType) => {
       onFinish(value);
       formik.resetForm();
-      setResetImage(true)
+      setResetImage(true);
     },
   });
 
@@ -60,50 +68,56 @@ const UserForm: React.FC<UserFormProps> = ({ userType, onFinish }) => {
       layout="horizontal"
     >
       {/* upload avatar */}
-      <Form.Item
-        name="avatar"
-        rules={[
-            { required: true, message: "Please choose avatar!" }
-        ]}
-        label="Upload Avatar"
-      >
-        <UploadAvatar resetImage={resetImage} onUpload={(e) => formik.setFieldValue('avatar', e[0].originFileObj)} />
+      <Form.Item label="Upload Avatar">
+        <div className="flex items-center gap-8">
+          {defaultVal && formik.values.avatar === null && (
+            <div>
+              <Avatar
+                size={100}
+                src={defaultVal.avatar.src ?? StaticContent.EMPTY_IMG}
+              />
+            </div>
+          )}
+          <UploadAvatar
+            resetImage={resetImage}
+            onUpload={(e) => formik.setFieldValue("avatar", e[0].originFileObj)}
+          />
+        </div>
       </Form.Item>
 
       {/* userName */}
       <Form.Item
-        name="userName"
-        rules={[
-            { required: true, message: "Please input user name!" },
-            { pattern: /^[a-zA-Z0-9]*$/, message: "user name only allow text and number no space"}
-    ]}
         tooltip="account name use when you login"
         required
         label="User Name"
       >
         <Input
+          name="userName"
           value={formik.values.userName}
           onChange={formik.handleChange}
           placeholder="Input user name"
         />
+        {
+          formik.touched.userName && formik.errors.userName && <p className="text-rose-600 mt-1">{formik.errors.userName}</p>
+        }
       </Form.Item>
 
       {/* password */}
       <Form.Item
-        name="password"
+      name="password"
+      required
         label="Password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
         hasFeedback
       >
         <Input.Password
+        name="password"
+
           onChange={formik.handleChange}
-          placeholder="input your password"
+          placeholder={defaultVal ? "∙∙∙∙∙∙∙∙∙∙" : "input your password"}
         />
+        {
+          formik.touched.password && formik.errors.password && <p className="text-rose-600 mt-1">{formik.errors.password}</p>
+        }
       </Form.Item>
       {/* confirm password */}
       <Form.Item
@@ -129,17 +143,16 @@ const UserForm: React.FC<UserFormProps> = ({ userType, onFinish }) => {
           }),
         ]}
       >
-        <Input.Password placeholder="confirm your password" />
+        <Input.Password
+          placeholder={defaultVal ? "∙∙∙∙∙∙∙∙∙∙" : "input your password"}
+        />
       </Form.Item>
 
       {/* full name */}
-      <Form.Item
-        rules={[{ required: true, message: "Please input full name!" }]}
-        name="fullName"
-        label="Full Name"
-      >
+      <Form.Item required label="Full Name">
         <Input
-          value={formik.values.fullName}
+          name="fullName"
+          defaultValue={formik.values.fullName}
           onChange={formik.handleChange}
           placeholder="Input product name"
         />
@@ -150,68 +163,77 @@ const UserForm: React.FC<UserFormProps> = ({ userType, onFinish }) => {
 
       {/* email */}
       {/* number phone */}
-      <Form.Item
-        name="email"
-        rules={[{ required: true, message: "Please input email!" }]}
-        label="Email"
-      >
+      <Form.Item required label="Email">
         <Input
+          name="email"
           placeholder="input your email"
           onChange={formik.handleChange}
+          value={formik.values.email}
           type="email"
           style={{ width: "100%" }}
         />
+        {
+          formik.touched.email && formik.errors.email && <p className="text-rose-600 mt-1">{formik.errors.email}</p>
+        }
       </Form.Item>
 
       {/* number phone */}
-      <Form.Item
-        rules={[{ required: true, message: "Please input phone number!" }]}
-        name="numberPhone"
-        label="Phone Number"
-      >
+      <Form.Item required label="Phone Number">
         <Input
+          name="numberPhone"
+          value={formik.values.numberPhone}
           placeholder="input your number phone"
           onChange={formik.handleChange}
-          addonBefore={prefixSelector}
           style={{ width: "100%" }}
         />
+        {
+          formik.touched.numberPhone && formik.errors.numberPhone && <p className="text-rose-600 mt-1">{formik.errors.numberPhone}</p>
+        }
       </Form.Item>
 
       {/* address */}
       {/* number phone */}
-      <Form.Item
-        name="address"
-        rules={[{ required: true, message: "Please input address!" }]}
-        label="Address"
-      >
+      <Form.Item required label="Address">
         <Input
+          name="address"
+          value={formik.values.address}
           placeholder="input your address"
           onChange={formik.handleChange}
         />
+        {
+          formik.touched.address && formik.errors.address && <p className="text-rose-600 mt-1">{formik.errors.address}</p>
+        }
       </Form.Item>
 
       {/* user type */}
-      <Form.Item
-        name="userType"
-        label="User Type"
-        rules={[{ required: true, message: "Please select gender!" }]}
-      >
+      <Form.Item required label="User Type">
         <Select
-          onSelect={(e) => formik.setFieldValue("userType", e)}
-          placeholder="select user type"
+          onChange={(e) => formik.setFieldValue("userType", e)}
+          defaultValue={{
+            value: userType.find((ele) => ele._id === defaultVal?.userType._id)
+              ?._id,
+            label: userType.find((ele) => ele._id === defaultVal?.userType._id)
+              ?.typeName,
+          }}
+          
         >
           {userType &&
-            userType.map((ele: TypeOfUserType) => (
+            userType.filter(i => i.role !== 1).map((ele: TypeOfUserType) => (
               <Select.Option key={ele._id} value={ele._id}>
                 {ele.typeName}
               </Select.Option>
             ))}
         </Select>
+        {
+          formik.touched.userType && formik.errors.userType && <p className="text-rose-600 mt-1">{formik.errors.userType}</p>
+        }
       </Form.Item>
 
       {/* from action */}
       <Form.Item wrapperCol={{ offset: 6 }}>
-        <ButtonApp htmlType="submit">Create New User</ButtonApp>
+        <ButtonApp htmlType="submit">
+          {defaultVal ? "Update" : "Create New User"}
+        </ButtonApp>
       </Form.Item>
     </Form>
   );
