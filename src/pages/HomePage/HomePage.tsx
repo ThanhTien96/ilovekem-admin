@@ -7,7 +7,7 @@ const HomePage: React.FC = () => {
     <div>
         <div className='grid grid-cols-12'>
             <div className='col-span-2 p-4'>
-                <CountSection title='Tổng số lượng sản phẩm' />
+                <CountSection />
             </div>
 
             <div className='col-span-2 p-4'>

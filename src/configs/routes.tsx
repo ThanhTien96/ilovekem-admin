@@ -1,8 +1,9 @@
-import { RouteObject, Outlet } from "react-router-dom";
-import {  NotFoundPage,  } from "pages";
+import { RouteObject, Outlet, Navigate } from "react-router-dom";
+import {  NoAuthorizedPage, NotFoundPage,  } from "pages";
 import React from "react";
 import pagePaths from "constants/pagePath";
 import { AppLayout } from "components/Layout";
+import { StoreState, useAppSelector } from "reduxStore";
 
 
 const Home = React.lazy(() => import('pages/HomePage'))
@@ -12,6 +13,26 @@ const AddProduct = React.lazy(() => import('pages/AddProductPage'));
 const UpdateProductPage = React.lazy(() => import('pages/UpdateProductPage'));
 const PostPage = React.lazy(() => import('pages/PostPage'));
 const AccountPage = React.lazy(() => import('pages/AccountPage'));
+
+export interface PrivateRouteProps {
+  renderIfTrue?: (state: StoreState) => boolean;
+  children: React.ReactElement;
+  fallBackComponent?: React.ReactElement;
+}
+
+export const PrivateRoute: React.FC<PrivateRouteProps> = (props) => {
+  const {
+    renderIfTrue,
+    children,
+    fallBackComponent = <NoAuthorizedPage />,
+  } = props;
+  const store = useAppSelector((store) => store);
+  if ((renderIfTrue && renderIfTrue(store)) || !renderIfTrue) {
+    return children;
+  }
+
+  return fallBackComponent;
+};
 
 const extendedRoutes: RouteObject[] = [
   {
@@ -45,9 +66,14 @@ const routes: RouteObject[] = [
   {
     path: pagePaths.default,
     element: (
+      <PrivateRoute
+        renderIfTrue={(state) => state.common.userSlice.profile ? true : false}
+        fallBackComponent={<Navigate to={"/login"} />}
+      >
       <AppLayout>
         <Outlet />
       </AppLayout>
+      </PrivateRoute>
     ),
     children: [
       ...extendedRoutes,
@@ -58,6 +84,7 @@ const routes: RouteObject[] = [
     ],
   },
   {
+    index: true,
     path: pagePaths.login,
     element: <LoginPage />
   }

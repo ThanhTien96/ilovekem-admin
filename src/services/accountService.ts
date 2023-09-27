@@ -1,4 +1,5 @@
 import { axiosClient } from "@axios"
+import { LoginPayloadType } from "@type/accountType"
 import { accountPath } from "constants/apiPath"
 
 export class AccountTypeService {
@@ -52,6 +53,23 @@ export class AccountService {
             url: `${accountPath.ACCOUNT}/${id}`,
             method: "PUT",
             data: payload,
+        })
+    }
+
+    /** user login */
+    static userLogin = async (dataLogin: LoginPayloadType) => {
+        return await axiosClient({
+            url: accountPath.LOGIN,
+            method: "POST",
+            data: dataLogin,
+        })
+    }
+
+    /** user fetch profile */
+    static userFetchProfile = async () => {
+        return await axiosClient({
+            url: accountPath.FETCH_PROFILE,
+            method: 'GET'
         })
     }
 }

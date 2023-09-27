@@ -14,5 +14,7 @@ export const postPath = {
 
 export const accountPath = {
     ACCOUNT_TYPE: 'userType',
-    ACCOUNT: 'user'
+    ACCOUNT: 'user',
+    FETCH_PROFILE: 'profile',
+    LOGIN: 'login'
 }

@@ -108,7 +108,7 @@ const AccountPage: React.FC = () => {
       width: '5%',
       render: (_, avatar) => (
         <Avatar
-          size={64}
+          size={50}
           src={avatar?.avatar?.src ?? StaticContent.EMPTY_IMG}
         />
       ),
