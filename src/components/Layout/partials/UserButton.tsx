@@ -1,6 +1,5 @@
 import { Button, Avatar, Typography, Popover, Space, Divider } from "antd";
 import {
-  UserOutlined,
   LogoutOutlined,
   CoffeeOutlined,
   InfoCircleOutlined,

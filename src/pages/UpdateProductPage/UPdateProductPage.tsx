@@ -12,12 +12,12 @@ import { ProductService } from "services/prouductService";
 import { setproductLoading } from "reduxStore/common/product/productSlice";
 import pagePaths from "constants/pagePath";
 import { ProductType } from "@type/product";
-type UPdateProductPageProps = {};
 
-const UPdateProductPage: React.FC<UPdateProductPageProps> = (props) => {
+
+const UPdateProductPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const productId = searchParams.get("productId");
   const [productDetail, setProductDetail] = useState<ProductType>();
   const { productType, pageLoading } = useAppSelector(
@@ -55,7 +55,7 @@ const UPdateProductPage: React.FC<UPdateProductPageProps> = (props) => {
     formData.append("sortDescription", value.sortDescription);
 
     if (value.media) {
-      value.media.forEach((image, index) => {
+      value.media.forEach((image) => {
         formData.append(`media`, image.originFileObj);
       });
     }

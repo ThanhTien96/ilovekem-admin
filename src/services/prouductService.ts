@@ -1,5 +1,4 @@
 import { axiosClient } from "@axios"
-import { ProductType } from "@type/product";
 import { AxiosHeaders } from "axios"
 import { productPath } from "constants/apiPath"
 

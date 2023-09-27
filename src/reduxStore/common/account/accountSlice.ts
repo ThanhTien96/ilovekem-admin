@@ -24,14 +24,14 @@ const accountSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(thunkGetAllAccount.pending, (state, {payload}) => {
+        builder.addCase(thunkGetAllAccount.pending, (state) => {
             state.pageAccountLoading = true;
         });
         builder.addCase(thunkGetAllAccount.fulfilled, (state, {payload}) => {
             state.accountList = payload;
             state.pageAccountLoading = false;
         });
-        builder.addCase(thunkGetAllAccount.rejected, (state, action) => {
+        builder.addCase(thunkGetAllAccount.rejected, (state) => {
             state.pageAccountLoading = false;
         });
         builder.addCase(thunkGetAllUserType.fulfilled, (state, {payload}) => {

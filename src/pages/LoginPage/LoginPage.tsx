@@ -26,10 +26,9 @@ import { AccountService } from "services/accountService";
 import { setUserLoading } from "reduxStore/common/user/userSlice";
 
 const { Content } = Layout;
-const { Text, Title, Link } = Typography;
+const { Text, Title } = Typography;
 
 function DefaultLoginForm() {
-  const { profile } = useAppSelector((state) => state.common.userSlice);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -99,9 +98,8 @@ function DefaultLoginForm() {
   );
 }
 
-export interface LoginPageProps {}
 
-const Page: React.FC<LoginPageProps> = (props) => {
+const Page: React.FC = () => {
   const { userLoading } = useAppSelector((state) => state.common.userSlice);
   return (
     <Layout className="flex items-center h-screen w-full justify-center">

@@ -1,4 +1,4 @@
-import { message } from 'antd';
+
 import { createSlice } from "@reduxjs/toolkit";
 import { thunkFetchProfile } from "./userAsyncThunk";
 import { ProfileType } from "@type/accountType";
@@ -23,7 +23,7 @@ const userSlice = createSlice({
         setUserLoading: (state, {payload}) => {
             state.userLoading = payload;
         },
-        resetProfile: (state, {payload}) => {
+        resetProfile: (state) => {
             state.profile = undefined
         }
     },

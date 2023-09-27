@@ -1,4 +1,4 @@
-import { Form, Input, Select, InputNumber, Upload } from "antd";
+import { Form, Input, Select, InputNumber } from "antd";
 import React from "react";
 import { ButtonApp, TextEditor, UploadMedia } from "..";
 import TextArea from "antd/es/input/TextArea";

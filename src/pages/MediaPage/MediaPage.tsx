@@ -1,8 +1,6 @@
-import React from 'react'
 
-type Props = {}
 
-const MediaPage = (props: Props) => {
+const MediaPage = () => {
   return (
     <div>MediaPage</div>
   )

@@ -1,5 +1,5 @@
 
-export type TypeOfUserType = "supperAdmin" | "admin" | "user" | "client";
+export type RoleOfUserType = "supperAdmin" | "admin" | "user" | "client";
 export interface ProfileType {
   avatar: {
     src: string;
