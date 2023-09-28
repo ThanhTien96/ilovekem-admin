@@ -16,3 +16,7 @@ export const accountPath = {
     ACCOUNT_TYPE: 'userType',
     ACCOUNT: 'user'
 }
+
+export const commonPath = {
+    COUNT_DOCUMENT: 'countSystem',
+}
