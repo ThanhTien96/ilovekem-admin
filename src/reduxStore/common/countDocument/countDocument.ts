@@ -3,6 +3,7 @@ import { thunkCountDocument } from "./countDocumentAsyncThunk";
 import { SystemCountType } from "@type/commonType";
 
 
+
 interface CountDocumentSliceType {
     systemCount?: SystemCountType;
     loading: boolean;
@@ -28,6 +29,7 @@ const countDocumentSlice = createSlice({
         });
         builder.addCase(thunkCountDocument.fulfilled, (state, {payload}) => {
             state.systemCount = payload;
+            state.loading = false;
         });
         builder.addCase(thunkCountDocument.rejected, (state) => {
             state.loading = false;

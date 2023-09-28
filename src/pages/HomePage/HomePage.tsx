@@ -3,6 +3,7 @@ import { Spin } from "antd";
 import { useAppDispatch, useAppSelector } from "reduxStore";
 import CountSection from "./partials/CountSection";
 import { thunkCountDocument } from "reduxStore/common/countDocument/countDocumentAsyncThunk";
+import { WrapperLayout } from "components/shared";
 
 const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -12,32 +13,18 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     dispatch(thunkCountDocument());
-  },[])
+  }, []);
 
   return (
-    <div>
-      <div className="grid grid-cols-12">
-        <Spin spinning={loading}>
-          {systemCount &&
-            Object.keys(systemCount).map((ele, index) => {
-              console.log("☣️ >>> ele: ", ele)
-              return (
-                <div key={index} className="col-span-2 p-4">
-                  <CountSection />
-                </div>
-              );
-            })}
-
+    <WrapperLayout>
+      <Spin spinning={loading}>
+        <div className="grid grid-cols-12">
           <div className="col-span-2 p-4">
-            <CountSection />
+            <CountSection title={'total product'} content={systemCount?.totalproduct} />
           </div>
-
-          <div className="col-span-2 p-4">
-            <CountSection />
-          </div>
-        </Spin>
-      </div>
-    </div>
+        </div>
+      </Spin>
+    </WrapperLayout>
   );
 };
 
