@@ -1,6 +1,6 @@
 import "./AppLayout.style.less";
 import { Layout, Menu, Input } from "antd";
-
+import logo from '../../assets/LOGO-VIEN-TRANG.png';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import menus from "configs/sidemenu";
@@ -34,8 +34,10 @@ const XLayout: React.FC<AppLayoutProps> = (props) => {
 
   return (
     <Layout className='flex-row h-screen'>
-      <Sider collapsible collapsed={collapsed} onCollapse={handleToggle}>
-        <div className='logo' />
+      <Sider  collapsible collapsed={collapsed} onCollapse={handleToggle}>
+        <div className='logo' >
+          <img width={50} height={50} src={logo} alt="I love kem admin" />
+        </div>
         <Menu
           defaultSelectedKeys={[pagePath.home]}
           mode='inline'
