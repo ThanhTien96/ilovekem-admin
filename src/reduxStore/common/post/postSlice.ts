@@ -25,7 +25,7 @@ const postSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(thunkGetAllPost.pending, (state, {payload}) => {
+        builder.addCase(thunkGetAllPost.pending, (state) => {
             state.pageLoading = true;
         });
 
@@ -33,7 +33,7 @@ const postSlice = createSlice({
             state.pageLoading = false;
             state.postList = payload;
         });
-        builder.addCase(thunkGetAllPost.rejected, (state, {payload}) => {
+        builder.addCase(thunkGetAllPost.rejected, (state) => {
             state.pageLoading = false
         });
     }

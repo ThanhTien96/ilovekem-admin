@@ -9,6 +9,8 @@ import {
   Space,
   Checkbox,
   Divider,
+  Spin,
+  message,
 } from "antd";
 import {
   GithubOutlined,
@@ -17,22 +19,44 @@ import {
   LoginOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "reduxStore";
+import { LoginPayloadType } from "@type/accountType";
+import { thunkFetchProfile } from "reduxStore/common/user/userAsyncThunk";
+import { AccountService } from "services/accountService";
+import { setUserLoading } from "reduxStore/common/user/userSlice";
 
 const { Content } = Layout;
-const { Text, Title, Link } = Typography;
+const { Text, Title } = Typography;
 
 function DefaultLoginForm() {
   const navigate = useNavigate();
-  const handleLogin = () => navigate("home");
+  const dispatch = useAppDispatch();
+
+  const handleLogin = async (data: LoginPayloadType) => {
+    dispatch(setUserLoading(true));
+    try {
+      const res = await AccountService.userLogin(data);
+      if (res.status === 200) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("refeshToken", res.data.refeshToken);
+        localStorage.setItem("exp", res.data.exp);
+        if (localStorage.getItem("token")) {
+          message.success("login successfull");
+          await dispatch(thunkFetchProfile());
+          navigate("/home");
+        }
+      }
+    } catch (err: any) {
+      message.error(err.response.data.message);
+    } finally {
+      dispatch(setUserLoading(false));
+    }
+  };
 
   return (
-    <Form
-      name='normal_login'
-      className='login-form'
-      initialValues={{ remember: true, username: "admin", password: "admin" }}
-    >
+    <Form name="normal_login" className="login-form" onFinish={handleLogin}>
       <Form.Item
-        name='username'
+        name="userName"
         rules={[
           {
             required: true,
@@ -41,12 +65,12 @@ function DefaultLoginForm() {
         ]}
       >
         <Input
-          prefix={<UserOutlined className='site-form-item-icon' />}
-          placeholder='Username'
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder="Username"
         />
       </Form.Item>
       <Form.Item
-        name='password'
+        name="password"
         rules={[
           {
             required: true,
@@ -55,26 +79,18 @@ function DefaultLoginForm() {
         ]}
       >
         <Input
-          prefix={<LockOutlined className='site-form-item-icon' />}
-          type='password'
-          placeholder='Password'
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          type="password"
+          placeholder="Password"
         />
       </Form.Item>
       <Form.Item>
-        <Form.Item name='remember' valuePropName='checked' noStyle>
+        <Form.Item valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
-
-        <Link className='login-form-forgot' href=''>
-          Forgot password
-        </Link>
       </Form.Item>
       <Form.Item>
-        <Button
-          htmlType='submit'
-          className='login-form-butto w-full'
-          onClick={handleLogin}
-        >
+        <Button htmlType="submit" className="login-form-butto w-full">
           Log in
         </Button>
       </Form.Item>
@@ -82,60 +98,52 @@ function DefaultLoginForm() {
   );
 }
 
-export interface LoginPageProps {}
 
-const Page: React.FC<LoginPageProps> = (props) => {
+const Page: React.FC = () => {
+  const { userLoading } = useAppSelector((state) => state.common.userSlice);
   return (
-    <Layout className='flex items-center h-screen w-full justify-center'>
-      <Content className='flex items-center'>
-        <Space direction='vertical'>
-          <Title level={2} className='text-center'>
-            Project Name
-          </Title>
-          <Divider className='my-0'>
-            <Text type='secondary' className='text-center'>
-              The world's largest event tracking platform
-            </Text>
-          </Divider>
-          <Tabs
-            defaultActiveKey='1'
-            centered
-            className='h-[280px] w-[400px]'
-            items={[
-              {
-                key: "1",
-                label: (
-                  <span>
-                    <LoginOutlined />
-                    Default
-                  </span>
-                ),
-                children: <DefaultLoginForm />,
-              },
-              {
-                key: "2",
-                label: (
-                  <span>
-                    <GithubOutlined />
-                    Github
-                  </span>
-                ),
-                children: <>hello</>,
-              },
-            ]}
-          />
-          <Divider className='my-0'>
-            <Text type='secondary' className='text-center'>
-              Our contacts
-            </Text>
-          </Divider>
-          <div className='flex flex-row items-center gap-4 justify-center'>
-            <Button shape='circle' icon={<GithubOutlined />} />
-            <Button shape='circle' icon={<TwitterOutlined />} />
-            <Button shape='circle' icon={<FacebookOutlined />} />
-          </div>
-        </Space>
-      </Content>
+    <Layout className="flex items-center h-screen w-full justify-center">
+      <Spin spinning={userLoading}>
+        <Content className="flex items-center">
+          <Space direction="vertical">
+            <Title level={2} className="text-center">
+              I Love Kem System
+            </Title>
+            <Divider className="my-0">
+              <Text type="secondary" className="text-center">
+                Admin Manament
+              </Text>
+            </Divider>
+            <Tabs
+              defaultActiveKey="1"
+              centered
+              className="h-[280px] w-[400px]"
+              items={[
+                {
+                  key: "1",
+                  label: (
+                    <span>
+                      <LoginOutlined />
+                      Default
+                    </span>
+                  ),
+                  children: <DefaultLoginForm />,
+                },
+              ]}
+            />
+            <Divider className="my-0">
+              <Text type="secondary" className="text-center">
+                Our contacts
+              </Text>
+            </Divider>
+            <div className="flex flex-row items-center gap-4 justify-center">
+              <Button shape="circle" icon={<GithubOutlined />} />
+              <Button shape="circle" icon={<TwitterOutlined />} />
+              <Button shape="circle" icon={<FacebookOutlined />} />
+            </div>
+          </Space>
+        </Content>
+      </Spin>
     </Layout>
   );
 };

@@ -1,7 +1,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import { thunkFetchProductType, thunkGetAllProduct } from "./productAsyncThunk";
-import { ProductType, ProductTypeFromBE } from "@type/product";
+import {ProductTypeFromBE } from "@type/product";
 import { TypeOfProductType } from "@type/productType";
 
 
@@ -30,10 +30,10 @@ const productSlice = createSlice({
             state.productList = payload;
             state.pageLoading = false
         });
-        builder.addCase(thunkGetAllProduct.pending, (state, {payload}) => {
+        builder.addCase(thunkGetAllProduct.pending, (state) => {
             state.pageLoading = true
         });
-        builder.addCase(thunkGetAllProduct.rejected, (state, {payload}) => {
+        builder.addCase(thunkGetAllProduct.rejected, (state) => {
             state.pageLoading = false;
         });
         builder.addCase(thunkFetchProductType.fulfilled, (state, {payload}) => {

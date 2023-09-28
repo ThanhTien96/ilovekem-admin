@@ -1,6 +1,5 @@
 import { Button, Avatar, Typography, Popover, Space, Divider } from "antd";
 import {
-  UserOutlined,
   LogoutOutlined,
   CoffeeOutlined,
   InfoCircleOutlined,
@@ -8,6 +7,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "reduxStore";
 
 
 
@@ -51,12 +51,19 @@ function Menu(props: MenuProps) {
 }
 
 function UserButton() {
+  const {profile} = useAppSelector(state => state.common.userSlice);
   const navigate = useNavigate();
 
   const handleNavigate = (url: string) => navigate(url);
 
   // TODO
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("exp");
+    
+    navigate('/login')
+  };
 
   const menuItems: (MenuItemProps | null)[] = [
     {
@@ -100,8 +107,8 @@ function UserButton() {
     >
       <Button type='text' className='h-[45px] px-2'>
         <div className='flex flex-row gap-4 items-center'>
-          <Avatar icon={<UserOutlined />} />
-          <Text>Anonymous</Text>
+          <Avatar src={profile?.avatar.src} />
+          <Text className="font-semibold">{profile?.fullName}</Text>
         </div>
       </Button>
     </Popover>

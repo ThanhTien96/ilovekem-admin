@@ -1,4 +1,4 @@
-import { AxiosHeaders } from "axios";
+
 import { axiosClient } from "@axios";
 import { postPath } from "constants/apiPath";
 

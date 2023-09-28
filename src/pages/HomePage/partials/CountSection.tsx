@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { useAppDispatch } from 'reduxStore';
+import React from 'react'
 
 
 type CountSectionProps = {

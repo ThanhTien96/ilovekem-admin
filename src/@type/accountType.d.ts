@@ -1,3 +1,30 @@
+
+export type RoleOfUserType = "supperAdmin" | "admin" | "user" | "client";
+export interface ProfileType {
+  avatar: {
+    src: string;
+    fileName: string;
+  };
+  _id: string;
+  userName: string;
+  fullName: string;
+  email: string;
+  numberPhone: string;
+  address: string;
+  userType: {
+    _id: string;
+    typeName: TypeOfUserType;
+    role: number;
+    users: string[];
+    __v: number;
+  };
+}
+
+export interface LoginPayloadType {
+  userName: string;
+  password: string;
+}
+
 export interface AccountType {
   avatar: {
     src: string;

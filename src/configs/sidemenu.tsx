@@ -4,7 +4,6 @@ import {
   ProjectOutlined,
   AppstoreAddOutlined,
   ContainerFilled,
-  WeiboOutlined,
   DropboxOutlined,
   TeamOutlined,
 } from "@ant-design/icons";

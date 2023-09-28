@@ -11,9 +11,8 @@ import { PostFormValueType } from "./partials/PostForm";
 import { PostService } from "services/postService";
 import { setPagePostLoading } from "reduxStore/common/post/postSlice";
 
-type PostPageProps = {};
 
-const PostPage: React.FC<PostPageProps> = (props) => {
+const PostPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { postList, pageLoading } = useAppSelector(
     (state) => state.common.postSlice
@@ -38,7 +37,7 @@ const PostPage: React.FC<PostPageProps> = (props) => {
     formData.append("subContent", value.subContent);
 
     if (value.media) {
-      value.media.forEach((image: any, index: any) => {
+      value.media.forEach((image: any) => {
         formData.append(`media`, image.originFileObj);
       });
     }
@@ -102,7 +101,7 @@ const PostPage: React.FC<PostPageProps> = (props) => {
       formData.append("subContent", value.subContent);
 
       if (value.media && value.media !== null) {
-        value.media.forEach((image: any, index: any) => {
+        value.media.forEach((image: any) => {
           formData.append(`media`, image.originFileObj);
         });
       }

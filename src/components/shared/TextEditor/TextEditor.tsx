@@ -7,7 +7,7 @@ type TextEditorProps = {
 }
 
 const TextEditor: React.FC<TextEditorProps> = (props) => {
-    const handleEditorChange = (content: any, editor: any) => {
+    const handleEditorChange = (content: any) => {
         props.onEditor && props.onEditor(content)
       };
 

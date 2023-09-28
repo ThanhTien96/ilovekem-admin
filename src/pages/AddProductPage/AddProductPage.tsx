@@ -8,9 +8,8 @@ import { Spin, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import pagePaths from "constants/pagePath";
 
-type AddProductProps = {};
 
-const AddProduct: React.FC<AddProductProps> = (props) => {
+const AddProduct: React.FC = () => {
   const { productType } = useAppSelector((state) => state.common.productSlice);
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
@@ -33,7 +32,7 @@ const AddProduct: React.FC<AddProductProps> = (props) => {
     formData.append("sortDescription", value.sortDescription);
 
     if (value.media) {
-      value.media.forEach((image, index) => {
+      value.media.forEach((image) => {
         formData.append(`media`, image.originFileObj);
       });
     }
