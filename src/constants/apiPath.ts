@@ -22,3 +22,7 @@ export const accountPath = {
 export const commonPath = {
     COUNT_DOCUMENT: 'countSystem',
 }
+
+export const mediaPath = {
+    MEDIA: 'media',
+}

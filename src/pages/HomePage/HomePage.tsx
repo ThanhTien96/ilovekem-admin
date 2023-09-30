@@ -11,17 +11,22 @@ import {
   PictureFilled,
   AntCloudOutlined,
   ShopFilled,
-  SlackOutlined
+  SlackOutlined,
 } from "@ant-design/icons";
+import { thunkGetAllMedia } from "reduxStore/common/media/mediaAsyncThunk";
 
 const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { systemCount, loading } = useAppSelector(
     (state) => state.common.countDocument
   );
+  const { mediaList, mediaLoading } = useAppSelector(
+    (state) => state.common.mediaSlice
+  );
 
   useEffect(() => {
     dispatch(thunkCountDocument());
+    dispatch(thunkGetAllMedia());
   }, []);
 
   return (
@@ -78,7 +83,7 @@ const HomePage: React.FC = () => {
               title={"product public"}
               content={systemCount?.totalProductPublic}
               icon={
-                <AntCloudOutlined  className="text-6xl text-sky-500 opacity-50" />
+                <AntCloudOutlined className="text-6xl text-sky-500 opacity-50" />
               }
             />
           </div>
@@ -95,7 +100,13 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* media */}
-          <MediaSection className="bg-white col-span-12 p-4 rounded-md shadow-xl mt-8" />
+          {mediaList && (
+            <MediaSection
+              data={mediaList}
+              isLoading={mediaLoading}
+              className="bg-white col-span-12 p-4 rounded-md shadow-xl mt-8"
+            />
+          )}
         </div>
       </Spin>
     </WrapperLayout>

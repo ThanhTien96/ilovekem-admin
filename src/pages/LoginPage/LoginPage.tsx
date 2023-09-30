@@ -41,8 +41,8 @@ function DefaultLoginForm() {
         localStorage.setItem("refeshToken", res.data.refeshToken);
         localStorage.setItem("exp", res.data.exp);
         if (localStorage.getItem("token")) {
-          message.success("login successfull");
           await dispatch(thunkFetchProfile());
+          message.success("login successfull");
           navigate("/home");
         }
       }
