@@ -18,6 +18,17 @@ class MediaService {
             data: file
         })
     } 
+
+    // delete image
+    static deleteImage = async (fileName: string) => {
+        return await axiosClient({
+            url: mediaPath.MEDIA,
+            method: 'DELETE',
+            params: {
+                fileName,
+            }
+        })
+    }
 }
 
 export {

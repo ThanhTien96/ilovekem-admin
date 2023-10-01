@@ -1,0 +1,13 @@
+.imageItem{
+
+    .itemAction{
+        left: 0;
+        visibility: hidden;
+        opacity: 0;
+        transition: all .5s;
+    }
+    &:hover .itemAction{
+        visibility: visible;
+        opacity: 1;
+    }
+}
