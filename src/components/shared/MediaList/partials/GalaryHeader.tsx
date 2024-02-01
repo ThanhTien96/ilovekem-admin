@@ -1,9 +1,7 @@
-import React from "react";
 import {CloseOutlined} from '@ant-design/icons'
 
-type Props = {};
 
-const GalaryHeader = (props: Props) => {
+const GalaryHeader = () => {
   return (
     <div className="flex justify-end">
       <CloseOutlined />
