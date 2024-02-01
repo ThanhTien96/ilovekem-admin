@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import ImageItem from "./partials/ImageItem";
 import { StoreMediaType } from "@type/mediaType";
 import Lightbox, { ImagesListType } from "react-spring-lightbox";
-import GalaryHeader from "./partials/GalaryHeader";
 
 type MediaListProps = {
   mediaData?: StoreMediaType[];
