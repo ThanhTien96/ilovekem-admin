@@ -14,7 +14,7 @@ const TextEditor: React.FC<TextEditorProps> = (props) => {
   return (
     <div>
         <Editor
-        apiKey="ihbhcuidj187qkson39p3ytjm5x2qo2g8eekk853omaleqmf"
+        apiKey={process.env.REACT_APP_TINY_KEY ?? "wumtctoa4zi0a1l66upxgydpoqz6d9jqqw9d26a862f6gfia"}
         // initialValue="<p>This is the initial content of the editor</p>"
         init={{
         statusbar: false,
