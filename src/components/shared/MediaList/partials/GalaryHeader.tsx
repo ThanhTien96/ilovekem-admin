@@ -1,6 +1,5 @@
 import {CloseOutlined} from '@ant-design/icons'
 
-type Props = {};
 
 const GalaryHeader = () => {
   return (
